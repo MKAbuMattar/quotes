@@ -7,5 +7,15 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class AppTest {
+    GetQuote quote = new GetQuote("app/src/test/resources/recentquotes.json");
+    private AppTest ErrorFile;
 
+    @Test
+    public void testGetQuoteGetPath() {
+        assertNotNull(quote.getPath());
+    }
+
+    /**
+     * my all method is void i don't know how to test them
+     */
 }

@@ -6,7 +6,7 @@ import quotes.GetQuote;
 
 public class App {
     public static void main(String[] args) {
-        GetQuote q = new GetQuote("app/src/main/resources/recentquotes.json");
-        q.getQuote();
+        GetQuote quote = new GetQuote("app/src/main/resources/recentquotes.json");
+        quote.getQuote();
     }
 }

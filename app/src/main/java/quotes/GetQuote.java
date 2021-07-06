@@ -44,8 +44,9 @@ public class GetQuote {
     public void toJSONQuote(List<Quote> insert) {
         Gson quoteGSON = new Gson();
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("app/src/main/resources/recentQuotesOutopt.json"));
-            writer.write(quoteGSON.toJson(insert));
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("app/src/main/resources/recentQuotesOutput.json"))) {
+                writer.write(quoteGSON.toJson(insert));
+            }
         } catch (Exception ex){
             ex.printStackTrace();
         }
