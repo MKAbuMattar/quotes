@@ -1,8 +1,8 @@
 package quotes;
 
 import com.google.gson.Gson;
-
 import com.google.common.reflect.TypeToken;
+import com.google.gson.GsonBuilder;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -42,7 +42,8 @@ public class GetQuote {
     }
 
     public void toJSONQuote(List<Quote> insert) {
-        Gson quoteGSON = new Gson();
+        //https://mkyong.com/java/how-to-enable-pretty-print-json-output-gson/
+        Gson quoteGSON = new GsonBuilder().setPrettyPrinting().create();
         try {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter("app/src/main/resources/recentQuotesOutput.json"))) {
                 writer.write(quoteGSON.toJson(insert));
