@@ -9,7 +9,11 @@ public class Quote {
         this.text = text;
     }
 
-    public String getAuthor() {
+  public Quote() {
+
+  }
+
+  public String getAuthor() {
         return author;
     }
 
@@ -25,9 +29,11 @@ public class Quote {
         this.text = text;
     }
 
-    @Override
-    public String toString() {
-        return "Quote: " + this.getText() +
-                "\nAuthor: " + this.getAuthor() + "\n" ;
-    }
+  @Override
+  public String toString() {
+    return "{" +
+        "author='" + author + '\'' +
+        ", text='" + text + '\'' +
+        '}';
+  }
 }
