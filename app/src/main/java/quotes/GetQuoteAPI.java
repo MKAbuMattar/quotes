@@ -16,7 +16,7 @@ public class GetQuoteAPI {
   private JsonParser parser = null;
   private JsonObject parserObject  = null;
   private String printQuote = null;
-  private GetQuoteLocal newQuote = null;
+  private  int responseCode;
 
   public GetQuoteAPI(String path) {
     this.path = path;
@@ -33,7 +33,10 @@ public class GetQuoteAPI {
       HttpURLConnection connection = null;
       BufferedReader in = null;
       try {
+
         connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        responseCode = connection.getResponseCode();
         in = new BufferedReader(
             new InputStreamReader(connection.getInputStream())
         );
@@ -42,32 +45,43 @@ public class GetQuoteAPI {
         e.printStackTrace();
       }
 
-    } catch (MalformedURLException e){
-      e.printStackTrace();
+    } catch (MalformedURLException ignored){
+
     }
   }
 
   public void getRandomQuote(){
     try {
-      printQuote = "\tAuthor: " + quote.getQuoteAuthor();
-      printQuote += "\n";
-      printQuote += "\tText: " + quote.getQuoteText();
 
-      String json = "{\"Author\":\""+quote.getQuoteAuthor()+"\",\"Text\":\""+ quote.getQuoteText()+"\"}";
+      if (responseCode == HttpURLConnection.HTTP_OK) {
+
+        printQuote = "\tAuthor: " + quote.getQuoteAuthor();
+        printQuote += "\n";
+        printQuote += "\tText: " + quote.getQuoteText();
+
+        String json = "{\"Author\":\""+quote.getQuoteAuthor()+"\",\"Text\":\""+ quote.getQuoteText()+"\"}";
 
 
-      String localPath = "app/src/main/resources/recentquotes.json";
-      GetQuoteLocal fuck = new GetQuoteLocal(localPath);
-      fuck.getQuote();
-      fuck.saveQuote(json);
+        String localPath = "app/src/main/resources/recentquotes.json";
+        GetQuoteLocal getNewQuote = new GetQuoteLocal(localPath);
+        getNewQuote.getQuote();
+        getNewQuote.saveQuote(json);
 
-    } catch (Exception e){
-      e.printStackTrace();
+        System.out.println(printQuoteString());
+      } else {
+        String localPath = "app/src/main/resources/recentquotes.json";
+        GetQuoteLocal quote = new GetQuoteLocal(localPath);
+        quote.getQuote();
+        quote.getRandomQuote();
+        System.out.println(quote);
+      }
+
+    } catch (Exception ignored){
+
     }
   }
 
-  @Override
-  public String toString() {
-    return "Random Quote :\n" + printQuote;
+  public String printQuoteString(){
+    return "Random Quote API :\n" + printQuote;
   }
 }
