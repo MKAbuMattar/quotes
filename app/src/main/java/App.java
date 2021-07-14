@@ -7,18 +7,9 @@ import quotes.GetQuoteLocal;
 
 public class App {
     public static void main(String[] args) {
-//        String localPath = "app/src/main/resources/recentquotes.json";
-//        GetQuoteLocal quote = new GetQuoteLocal(localPath);
-//        quote.getQuote();
-//        quote.getRandomQuote();
-//        System.out.println(quote);
-
-        String url = "http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en";
-
+        String url = "htt://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en";
         GetQuoteAPI quoteAPI = new GetQuoteAPI(url);
-
         quoteAPI.getQuote();
         quoteAPI.getRandomQuote();
-//        System.out.println(quoteAPI);
     }
 }

@@ -14,7 +14,7 @@ public class GetQuoteLocal {
   private String path;
   private List<Quote> quote = null;
   private StringBuilder printQuote = null;
-  private StringBuilder jsonFile= null;
+  private String jsonFile= "";
 
   public GetQuoteLocal() {
   }
@@ -47,37 +47,24 @@ public class GetQuoteLocal {
       try (BufferedWriter writer = new BufferedWriter(new FileWriter("app/src/main/resources/recentQuotesOutput.json"))) {
         writer.write(quoteGSON.toJson(quote));
       }
-    } catch (Exception e){
-      e.printStackTrace();
+    } catch (Exception ignored){
+
     }
   }
 
 
-  public void saveQuote (String fuck){
-    Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+  public void saveQuote (String getNewQuote){
+    Gson quoteGSON = new GsonBuilder().setPrettyPrinting().create();;
     try {
-      jsonFile = new StringBuilder();
-      jsonFile.append("[");
-
-      for (int i = 0; i < quote.size(); i++){
-        jsonFile.append("{\"Author\":\"");
-        jsonFile.append(quote.get(i).getAuthor());
-        jsonFile.append("\",\"Text\":\"");
-        String result = quote.get(i).getText().replaceAll("[^']*(?:'(.*?)')?.*", "$1");
-        jsonFile.append(result);
-        jsonFile.append("\"},");
-      }
-      jsonFile.append(fuck);
-      jsonFile.append("]");
       JsonParser parser = new JsonParser();
-      JsonObject o = parser.parse(String.valueOf(jsonFile)).getAsJsonObject();
+      JsonObject o = parser.parse(getNewQuote).getAsJsonObject();
 
       try (BufferedWriter writer = new BufferedWriter(new FileWriter("app/src/main/resources/recentQuotesOutput.json"))) {
-        writer.write(GSON.toJson(o));
+        writer.write(quoteGSON.toJson(o));
       }
 
-    }  catch (Exception e){
-      e.printStackTrace();
+    }  catch (Exception ignored){
+
     }
   }
 
@@ -96,6 +83,6 @@ public class GetQuoteLocal {
 
   @Override
   public String toString() {
-    return "Random Quote :\n" + printQuote;
+    return "Random Quote Local :\n" + printQuote;
   }
 }
