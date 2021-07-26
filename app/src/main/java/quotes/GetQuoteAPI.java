@@ -17,6 +17,7 @@ public class GetQuoteAPI {
   private JsonObject parserObject  = null;
   private String printQuote = null;
   private  int responseCode;
+  private boolean isAPIWork = false;
 
   public GetQuoteAPI(String path) {
     this.path = path;
@@ -41,12 +42,14 @@ public class GetQuoteAPI {
             new InputStreamReader(connection.getInputStream())
         );
         quote = gson.fromJson(in, QuoteAPI.class);
+        isAPIWork = true;
       } catch (IOException e) {
         e.printStackTrace();
+        isAPIWork = false;
       }
 
     } catch (MalformedURLException ignored){
-
+      isAPIWork = false;
     }
   }
 
@@ -66,7 +69,7 @@ public class GetQuoteAPI {
         GetQuoteLocal getNewQuote = new GetQuoteLocal(localPath);
         getNewQuote.getQuote();
         getNewQuote.saveQuote(json);
-
+        isAPIWork = true;
         System.out.println(printQuoteString());
       } else {
         String localPath = "app/src/main/resources/recentquotes.json";
@@ -74,11 +77,16 @@ public class GetQuoteAPI {
         quote.getQuote();
         quote.getRandomQuote();
         System.out.println(quote);
+        isAPIWork = false;
       }
 
     } catch (Exception ignored){
-
+      isAPIWork = false;
     }
+  }
+
+  public boolean isAPIWork() {
+    return isAPIWork;
   }
 
   public String printQuoteString(){
